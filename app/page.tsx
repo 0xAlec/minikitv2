@@ -17,6 +17,7 @@ import {
 import { TransactionDefault } from '@coinbase/onchainkit/transaction';
 import eruda from 'eruda';
 
+eruda.init();
 const console = eruda.get('console');
 
 export default function App() {

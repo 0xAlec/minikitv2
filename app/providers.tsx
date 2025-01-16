@@ -8,7 +8,6 @@ import {baseSepolia} from 'viem/chains';
 import {http} from 'wagmi';
 import { PrivyProvider } from '@privy-io/react-auth';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import eruda from 'eruda';
 
 const config = createConfig({
   chains: [baseSepolia],
@@ -16,8 +15,6 @@ const config = createConfig({
     [baseSepolia.id]: http(),
   },
 });
-
-eruda.init();
 
 export function Providers(props: { children: ReactNode }) {
   const queryClient = new QueryClient();
