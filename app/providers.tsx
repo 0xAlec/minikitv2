@@ -13,12 +13,6 @@ import { coinbaseWallet } from 'wagmi/connectors';
 
 const config = createConfig({
   chains: [baseSepolia], // Pass your required chains as an array
-  connectors: [
-    coinbaseWallet({
-      appName: 'Onchainkit',
-      appLogoUrl: 'https://onchainkit.xyz/favicon/48x48.png?v4-19-24',
-    })
-  ],
   transports: {
     [baseSepolia.id]: http(),
   },
