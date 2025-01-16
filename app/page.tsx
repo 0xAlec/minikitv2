@@ -49,7 +49,7 @@ export default function App() {
     ) {
       createWallet();
     }
-  }, [authenticated, ready, user]);
+  }, [authenticated, ready, user, createWallet]);
 
   useEffect(() => {
     import('eruda').then((eruda) => {
