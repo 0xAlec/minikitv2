@@ -7,13 +7,13 @@ import { useAuthenticate } from '../lib/auth/useAuthenticate';
 import { Loader } from './components/Loader';
 
 export default function App() {
-  const { login, ready, authenticated, user } = useAuthenticate();
+  const { login, authenticated, user } = useAuthenticate();
 
   useEffect(() => {
-    if (ready && !authenticated) {
+    if (!authenticated) {
       login();
     }
-  }, [login, ready, authenticated]);
+  }, [login, authenticated]);
 
   useEffect(() => {
     import('eruda').then((eruda) => {
@@ -22,7 +22,7 @@ export default function App() {
     });
   }, []);
 
-  if (!ready || !authenticated) {
+  if (!authenticated) {
     return <Loader title="Welcome to MiniKit Template!" text={
       <>
         <div className="flex flex-row items-center gap-2">

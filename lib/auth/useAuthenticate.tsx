@@ -18,6 +18,10 @@ export const useAuthenticate = () => {
   }, [isSDKLoaded]);
 
   const login = async () => {
+    if (!ready) {
+      return;
+    }
+
     const { nonce } = await initLoginToFrame();
     const result = await sdk.actions.signIn({ nonce: nonce });
     await loginToFrame({
@@ -38,6 +42,6 @@ export const useAuthenticate = () => {
       }
   };
 
-  return { login, ready, authenticated, user };
+  return { login, authenticated, user };
 };
 
