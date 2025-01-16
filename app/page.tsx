@@ -36,19 +36,22 @@ export default function App() {
         </div>
       </header>
       <main className="flex-grow flex items-center justify-center">
-        <div className="p-4 mt-2 bg-gray-100 dark:bg-gray-800 rounded-lg">
-          <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
-            {JSON.stringify(user, null, 2)}
-          </pre>
-        </div>
-        <TransactionDefault calls={[{
-          to: '0x0000000000000000000000000000000000000000',
-          value: BigInt(2900000000000000),
-        }]}
-        onStatus={(status) => {
-          console.log(status);
-        }}
+        <div className="flex flex-col gap-4">
+          <div className="p-4 mt-2 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
+              {JSON.stringify(user, null, 2)}
+            </pre>
+          </div>
+          <TransactionDefault 
+            calls={[{
+              to: '0x0000000000000000000000000000000000000000',
+              value: BigInt(2900000000000000),
+            }]}
+            onStatus={(status) => {
+              console.log(status);
+            }}
           />
+        </div>
       </main>
     </div>
   );
