@@ -1,6 +1,5 @@
 'use client';
 
-import { base } from 'wagmi/chains';
 import { OnchainKitProvider } from '@coinbase/onchainkit';
 import type { ReactNode } from 'react';
 import {createConfig} from '@privy-io/wagmi';
@@ -9,10 +8,9 @@ import {baseSepolia} from 'viem/chains';
 import {http} from 'wagmi';
 import { PrivyProvider } from '@privy-io/react-auth';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import { coinbaseWallet } from 'wagmi/connectors';
 
 const config = createConfig({
-  chains: [baseSepolia], // Pass your required chains as an array
+  chains: [baseSepolia],
   transports: {
     [baseSepolia.id]: http(),
   },
@@ -40,7 +38,7 @@ export function Providers(props: { children: ReactNode }) {
       <WagmiProvider config={config}>
         <OnchainKitProvider
           apiKey={'ozpCtG8CfD3TIod_1Va7UBsUm5Rn1-XS'}
-          chain={base}
+          chain={baseSepolia}
             config={{ appearance: { 
               mode: 'auto',
           }
