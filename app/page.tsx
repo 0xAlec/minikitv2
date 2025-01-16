@@ -9,7 +9,7 @@ import { usePrivy } from '@privy-io/react-auth';
 import { Loader } from './components/Loader';
 
 export default function App() {
-  const { ready, authenticated } = usePrivy();
+  const { ready, authenticated, createWallet, user } = usePrivy();
   const { initLoginToFrame, loginToFrame } = useLoginToFrame();
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
 
@@ -38,6 +38,20 @@ export default function App() {
   }, [ready, authenticated, initLoginToFrame, loginToFrame]);
 
   useEffect(() => {
+    if (
+      authenticated &&
+      ready &&
+      user &&
+      user.linkedAccounts.filter(
+        (account) =>
+          account.type === "wallet" && account.walletClientType === "privy",
+      ).length === 0
+    ) {
+      createWallet();
+    }
+  }, [authenticated, ready, user]);
+
+  useEffect(() => {
     import('eruda').then((eruda) => {
       eruda.default.init();
       window.console = eruda.default.get('console');
@@ -58,6 +72,11 @@ export default function App() {
         </div>
       </header>
       <main className="flex-grow flex items-center justify-center">
+        <div className="p-4 mt-2 bg-gray-100 dark:bg-gray-800 rounded-lg">
+          <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
+            {JSON.stringify(user, null, 2)}
+          </pre>
+        </div>
         <TransactionDefault calls={[{
           to: '0x0000000000000000000000000000000000000000',
           value: BigInt(2900000000000000),
