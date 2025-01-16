@@ -13,6 +13,7 @@
     "@privy-io/react-auth": "^2.0.3",
     "@privy-io/wagmi": "^1.0.2",
     "@tanstack/react-query": "^5",
+    "eruda": "^3.4.1",
     "next": "14.2.15",
     "react": "^18",
     "react-dom": "^18",

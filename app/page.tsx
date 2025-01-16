@@ -15,6 +15,9 @@ import {
   EthBalance,
 } from '@coinbase/onchainkit/identity';
 import { TransactionDefault } from '@coinbase/onchainkit/transaction';
+import eruda from 'eruda';
+
+const console = eruda.get('console');
 
 export default function App() {
   return (
