@@ -2,54 +2,18 @@
 
 import { WalletIsland } from '@coinbase/onchainkit/wallet';
 import { TransactionDefault } from '@coinbase/onchainkit/transaction';
-import { useEffect, useState } from 'react';
-import { useLoginToFrame } from "@privy-io/react-auth/farcaster";
-import sdk from '@farcaster/frame-sdk';
-import { usePrivy } from '@privy-io/react-auth';
+import { useEffect } from 'react';
+import { useAuthenticate } from '../lib/auth/useAuthenticate';
 import { Loader } from './components/Loader';
 
 export default function App() {
-  const { ready, authenticated, createWallet, user } = usePrivy();
-  const { initLoginToFrame, loginToFrame } = useLoginToFrame();
-  const [isSDKLoaded, setIsSDKLoaded] = useState(false);
-
-  useEffect(() => {
-    const load = async () => {
-      sdk.actions.ready();
-    };
-    if (sdk && !isSDKLoaded) {
-      setIsSDKLoaded(true);
-      load();
-    }
-  }, [isSDKLoaded]);
+  const { login, ready, authenticated, user } = useAuthenticate();
 
   useEffect(() => {
     if (ready && !authenticated) {
-      const login = async () => {
-        const { nonce } = await initLoginToFrame();
-        const result = await sdk.actions.signIn({ nonce: nonce });
-        await loginToFrame({
-          message: result.message,
-          signature: result.signature,
-        });
-      };
       login();
     }
-  }, [ready, authenticated, initLoginToFrame, loginToFrame]);
-
-  useEffect(() => {
-    if (
-      authenticated &&
-      ready &&
-      user &&
-      user.linkedAccounts.filter(
-        (account) =>
-          account.type === "wallet" && account.walletClientType === "privy",
-      ).length === 0
-    ) {
-      createWallet();
-    }
-  }, [authenticated, ready, user, createWallet]);
+  }, [login, ready, authenticated]);
 
   useEffect(() => {
     import('eruda').then((eruda) => {
@@ -58,7 +22,7 @@ export default function App() {
     });
   }, []);
 
-  if (!ready || !isSDKLoaded || !authenticated) {
+  if (!ready || !authenticated) {
     return <Loader />;
   }
 
