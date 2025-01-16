@@ -15,12 +15,16 @@ import {
   EthBalance,
 } from '@coinbase/onchainkit/identity';
 import { TransactionDefault } from '@coinbase/onchainkit/transaction';
-import eruda from 'eruda';
-
-eruda.init();
-const console = eruda.get('console');
+import { useEffect } from 'react';
 
 export default function App() {
+  useEffect(() => {
+    import('eruda').then((eruda) => {
+      eruda.default.init();
+      window.console = eruda.default.get('console');
+    });
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen font-sans dark:bg-background dark:text-white bg-white text-black">
       <header className="pt-4 pr-4">
