@@ -3,20 +3,21 @@
 import { usePrivy } from "@privy-io/react-auth";
 import sdk from '@farcaster/frame-sdk';
 import { useLoginToFrame } from "@privy-io/react-auth/farcaster";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const useAuthenticate = () => {
   const { ready, authenticated, user, createWallet } = usePrivy();
   const { initLoginToFrame, loginToFrame } = useLoginToFrame();
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
 
-  const login = async () => {
-
+  useEffect(() => {
     if (!isSDKLoaded) {
-        sdk.actions.ready();
-        setIsSDKLoaded(true);
+      sdk.actions.ready();
+      setIsSDKLoaded(true);
     }
+  }, [isSDKLoaded]);
 
+  const login = async () => {
     const { nonce } = await initLoginToFrame();
     const result = await sdk.actions.signIn({ nonce: nonce });
     await loginToFrame({
