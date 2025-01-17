@@ -2,7 +2,8 @@ import { OnchainKitProvider } from "@coinbase/onchainkit"
 import { PrivyProvider } from "@privy-io/react-auth"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactNode } from "react"
-import { http, WagmiProvider } from "wagmi"
+import { http } from "wagmi"
+import {WagmiProvider} from '@privy-io/wagmi';
 import { createConfig } from "@privy-io/wagmi"
 import { baseSepolia, Chain } from "wagmi/chains"
 
