@@ -3,9 +3,8 @@
 import { usePrivy } from "@privy-io/react-auth";
 import sdk from '@farcaster/frame-sdk';
 import { useLoginToFrame } from "@privy-io/react-auth/farcaster";
-import { useEffect, useState } from "react";
 import type { SignInOptions } from "@farcaster/frame-sdk";
-
+import { useMiniKitProviderContext } from "../config/MiniKitProvider";
 export const useAuthenticate = ({
   signInOptions,
 }: {
@@ -13,26 +12,21 @@ export const useAuthenticate = ({
 } = {}) => {
   const { ready, authenticated, user, createWallet } = usePrivy();
   const { initLoginToFrame, loginToFrame } = useLoginToFrame();
-  const [isSDKLoaded, setIsSDKLoaded] = useState(false);
-
-  useEffect(() => {
-    if (!isSDKLoaded) {
-      sdk.actions.ready();
-      setIsSDKLoaded(true);
-    }
-  }, [isSDKLoaded]);
-
+  const { platform } = useMiniKitProviderContext();
+  
   const login = async () => {
     if (!ready) {
       return;
     }
 
-    const { nonce } = await initLoginToFrame();
-    const result = await sdk.actions.signIn(signInOptions || { nonce: nonce });
-    await loginToFrame({
+    if (platform === 'farcaster') {
+      const { nonce } = await initLoginToFrame();
+      const result = await sdk.actions.signIn(signInOptions || { nonce: nonce });
+      await loginToFrame({
         message: result.message,
-      signature: result.signature,
-    });
+        signature: result.signature,
+      });
+    }
 
     if (
         authenticated &&
