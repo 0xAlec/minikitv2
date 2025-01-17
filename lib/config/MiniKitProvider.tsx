@@ -3,13 +3,11 @@ import { PrivyProvider } from "@privy-io/react-auth"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactNode } from "react"
 import { http } from "wagmi"
-import {WagmiProvider} from '@privy-io/wagmi';
+import { WagmiProvider } from '@privy-io/wagmi';
 import { createConfig } from "@privy-io/wagmi"
 import { baseSepolia, Chain } from "wagmi/chains"
 
 export type MiniKitProviderConfig = {
-    apiKey?: string,
-    chain: Chain,
     name?: string,
     logo?: string,
     mode?: 'auto' | 'light' | 'dark',
@@ -18,17 +16,20 @@ export type MiniKitProviderConfig = {
 
 export function MiniKitProvider({
     appId,
+    apiKey,
+    chain = baseSepolia,
     config = {
-        chain: baseSepolia,
         mode: 'auto',
     },
     children,
 }: {
     appId: string,
+    apiKey?: string,
+    chain?: Chain,
     config: MiniKitProviderConfig,
     children: ReactNode,
 }) {
-    const { apiKey, chain, name, logo, mode, theme } = config;
+    const { name, logo, mode, theme } = config;
     const wagmiConfig = createConfig({
         chains: [chain],
         transports: {
