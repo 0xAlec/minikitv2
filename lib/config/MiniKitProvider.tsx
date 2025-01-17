@@ -9,6 +9,7 @@ import { baseSepolia, Chain } from "wagmi/chains"
 
 export type MiniKitProviderConfig = {
     apiKey?: string,
+    chain: Chain,
     name?: string,
     logo?: string,
     mode?: 'auto' | 'light' | 'dark',
@@ -17,15 +18,17 @@ export type MiniKitProviderConfig = {
 
 export function MiniKitProvider({
     appId,
-    config,
-    chain = baseSepolia,
+    config = {
+        chain: baseSepolia,
+        mode: 'auto',
+    },
     children,
 }: {
     appId: string,
-    config?: MiniKitProviderConfig,
-    chain?: Chain,
+    config: MiniKitProviderConfig,
     children: ReactNode,
 }) {
+    const { apiKey, chain, name, logo, mode, theme } = config;
     const wagmiConfig = createConfig({
         chains: [chain],
         transports: {
@@ -52,15 +55,16 @@ export function MiniKitProvider({
           <QueryClientProvider client={queryClient}>
           <WagmiProvider config={wagmiConfig}>
             <OnchainKitProvider
-              apiKey={config?.apiKey}
+              apiKey={apiKey}
               chain={chain}
-                config={{ appearance: { 
-                  name: config?.name,
-                  logo: config?.logo,
-                  mode: config?.mode,
-                  theme: config?.theme,
-              }
-            }}
+              config={{ 
+                appearance: { 
+                    name,
+                    logo,
+                    mode,
+                    theme,
+                }
+              }}
             >
               {children}
             </OnchainKitProvider>
