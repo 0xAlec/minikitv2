@@ -10,7 +10,7 @@ export const useAuthenticate = ({
   signInOptions,
 }: {
   signInOptions?: SignInOptions;
-}) => {
+} = {}) => {
   const { ready, authenticated, user, createWallet } = usePrivy();
   const { initLoginToFrame, loginToFrame } = useLoginToFrame();
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
