@@ -5,11 +5,11 @@ import { TransactionDefault } from '@coinbase/onchainkit/transaction';
 import { useEffect } from 'react';
 import { useAuthenticate } from '../lib/auth/useAuthenticate';
 import { Loader } from './components/Loader';
-import { useMiniKitProviderContext } from '@/lib/config/MiniKitProvider';
+import { useMiniKit } from '@/lib/config/MiniKitProvider';
 
 export default function App() {
   const { login, authenticated, user } = useAuthenticate();
-  const { ready, isReady, user: miniappUser } = useMiniKitProviderContext();
+  const { ready, isReady, user: miniappUser } = useMiniKit();
 
   useEffect(() => {
     const initReady = async () => {

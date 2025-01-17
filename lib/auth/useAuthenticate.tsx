@@ -4,7 +4,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import sdk from '@farcaster/frame-sdk';
 import { useLoginToFrame } from "@privy-io/react-auth/farcaster";
 import type { SignInOptions } from "@farcaster/frame-sdk";
-import { useMiniKitProviderContext } from "../config/MiniKitProvider";
+import { useMiniKit } from "../config/MiniKitProvider";
 export const useAuthenticate = ({
   signInOptions,
 }: {
@@ -12,7 +12,7 @@ export const useAuthenticate = ({
 } = {}) => {
   const { ready, authenticated, user, createWallet } = usePrivy();
   const { initLoginToFrame, loginToFrame } = useLoginToFrame();
-  const { platform } = useMiniKitProviderContext();
+  const { platform } = useMiniKit();
   
   const login = async () => {
     if (!ready) {

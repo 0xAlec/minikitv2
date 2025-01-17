@@ -25,7 +25,7 @@ export type MiniKitProviderContextType = {
 
 export const MiniKitProviderContext = createContext<MiniKitProviderContextType | null>(null)
 
-export function useMiniKitProviderContext() {
+export function useMiniKit() {
     const context = useContext(MiniKitProviderContext)
     if (!context) {
         throw new Error('useMiniKitProviderContext must be used within a MiniKitProvider')
