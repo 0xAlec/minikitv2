@@ -4,8 +4,13 @@ import { usePrivy } from "@privy-io/react-auth";
 import sdk from '@farcaster/frame-sdk';
 import { useLoginToFrame } from "@privy-io/react-auth/farcaster";
 import { useEffect, useState } from "react";
+import type { SignInOptions } from "@farcaster/frame-sdk";
 
-export const useAuthenticate = () => {
+export const useAuthenticate = ({
+  signInOptions,
+}: {
+  signInOptions?: SignInOptions;
+}) => {
   const { ready, authenticated, user, createWallet } = usePrivy();
   const { initLoginToFrame, loginToFrame } = useLoginToFrame();
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
@@ -23,7 +28,7 @@ export const useAuthenticate = () => {
     }
 
     const { nonce } = await initLoginToFrame();
-    const result = await sdk.actions.signIn({ nonce: nonce });
+    const result = await sdk.actions.signIn(signInOptions || { nonce: nonce });
     await loginToFrame({
         message: result.message,
       signature: result.signature,
