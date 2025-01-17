@@ -9,7 +9,7 @@ import { useMiniKitProviderContext } from '@/lib/config/MiniKitProvider';
 
 export default function App() {
   const { login, authenticated, user } = useAuthenticate();
-  const { ready, isReady } = useMiniKitProviderContext();
+  const { ready, isReady, user: miniappUser } = useMiniKitProviderContext();
 
   useEffect(() => {
     const initReady = async () => {
@@ -57,6 +57,9 @@ export default function App() {
       <main className="flex-grow flex items-center justify-center">
         <div className="flex flex-col gap-4">
           <div className="p-4 mt-2 bg-gray-100 dark:bg-gray-800 rounded-lg">
+          <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
+              {JSON.stringify(miniappUser, null, 2)}
+            </pre>
             <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
               {JSON.stringify(user, null, 2)}
             </pre>
