@@ -10,7 +10,7 @@ import { useHapticFeedback } from '@/lib/core/useHapticFeedback';
 
 export default function App() {
   const { login, authenticated, user } = useAuthenticate();
-  const { impactOccured, notificationOccured } = useHapticFeedback();
+  const { impactOccured, notificationOccured, selectionChanged } = useHapticFeedback();
   const { ready, isReady, user: miniappUser } = useMiniKit();
 
   useEffect(() => {
@@ -25,8 +25,8 @@ export default function App() {
   useEffect(() => {
     if (isReady && !authenticated) {
       login();
+      notificationOccured('success');
     }
-    notificationOccured('success');
   }, [login, authenticated, isReady, notificationOccured]);
 
   useEffect(() => {
@@ -75,6 +75,9 @@ export default function App() {
               value: BigInt(2900000000000000),
             }]}
             onStatus={(status) => {
+              if (status.statusName === 'init') {
+                selectionChanged();
+              }
               if (status.statusName === 'success') {
                 notificationOccured('success');
               }
