@@ -6,9 +6,11 @@ import { useEffect } from 'react';
 import { useAuthenticate } from '../lib/auth/useAuthenticate';
 import { Loader } from './components/Loader';
 import { useMiniKit } from '@/lib/config/MiniKitProvider';
+import { useHapticFeedback } from '@/lib/core/useHapticFeedback';
 
 export default function App() {
   const { login, authenticated, user } = useAuthenticate();
+  const { impactOccured, notificationOccured, selectionChanged } = useHapticFeedback();
   const { ready, isReady, user: miniappUser } = useMiniKit();
 
   useEffect(() => {
@@ -72,9 +74,21 @@ export default function App() {
               value: BigInt(2900000000000000),
             }]}
             onStatus={(status) => {
-              console.log(status);
+              if (status.statusName === 'transactionIdle') {
+                selectionChanged();
+              }
             }}
           />
+          <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => {
+            impactOccured('light');
+          }}>
+            Impact
+          </button>
+          <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => {
+            notificationOccured('success');
+          }}>
+            Notification
+          </button>
         </div>
       </main>
     </div>
