@@ -1,17 +1,28 @@
 'use client';
 
 import { WalletIsland } from '@coinbase/onchainkit/wallet';
-import { TransactionDefault } from '@coinbase/onchainkit/transaction';
 import { useEffect } from 'react';
 import { useAuthenticate } from '../lib/auth/useAuthenticate';
 import { Loader } from './components/Loader';
 import { useMiniKit } from '@/lib/config/MiniKitProvider';
 import { useHapticFeedback } from '@/lib/core/useHapticFeedback';
+import { Buy } from '@coinbase/onchainkit/buy'; 
+import type { Token } from '@coinbase/onchainkit/token';
 
 export default function App() {
   const { login, authenticated, user } = useAuthenticate();
   const { impactOccured, notificationOccured, selectionChanged } = useHapticFeedback();
   const { ready, isReady, user: miniappUser } = useMiniKit();
+  
+  const degenToken: Token = {
+    name: 'DEGEN',
+    address: '0x4ed4e862860bed51a9570b96d89af5e1b0efefed',
+    symbol: 'DEGEN',
+    decimals: 18,
+    image:
+    'https://d3r81g40ycuhqg.cloudfront.net/wallet/wais/3b/bf/3bbf118b5e6dc2f9e7fc607a6e7526647b4ba8f0bea87125f971446d57b296d2-MDNmNjY0MmEtNGFiZi00N2I0LWIwMTItMDUyMzg2ZDZhMWNm',
+    chainId: 8453,
+  };
 
   useEffect(() => {
     const readyApp = async () => {
@@ -25,8 +36,9 @@ export default function App() {
   useEffect(() => {
     if (isReady && !authenticated) {
       login();
+      notificationOccured('success');
     }
-  }, [login, authenticated, isReady]);
+  }, [login, authenticated, isReady, notificationOccured]);
 
   useEffect(() => {
     import('eruda').then((eruda) => {
@@ -68,26 +80,18 @@ export default function App() {
               {JSON.stringify(user, null, 2)}
             </pre>
           </div>
-          <TransactionDefault 
-            calls={[{
-              to: '0x0000000000000000000000000000000000000000',
-              value: BigInt(2900000000000000),
-            }]}
-            onStatus={(status) => {
-              if (status.statusName === 'transactionIdle') {
-                selectionChanged();
-              }
-            }}
-          />
+          <Buy toToken={degenToken} onStatus={(status) => {
+            if (status.statusName === 'init') {
+              selectionChanged();
+            }
+            if (status.statusName === 'success') {
+              notificationOccured('success');
+            }
+          }}/> 
           <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => {
             impactOccured('light');
           }}>
             Impact
-          </button>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => {
-            notificationOccured('success');
-          }}>
-            Notification
           </button>
         </div>
       </main>
