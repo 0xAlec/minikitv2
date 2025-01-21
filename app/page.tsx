@@ -72,10 +72,10 @@ export default function App() {
           <TransactionDefault 
             calls={[{
               to: '0x0000000000000000000000000000000000000000',
-              value: BigInt(2900000000000000),
+              value: BigInt(1000000),
             }]}
             onStatus={(status) => {
-              if (status.statusName === 'init') {
+              if (status.statusName === 'transactionPending') {
                 selectionChanged();
               }
               if (status.statusName === 'success') {
