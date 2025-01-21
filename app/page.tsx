@@ -12,11 +12,13 @@ export default function App() {
   const { ready, isReady, user: miniappUser } = useMiniKit();
 
   useEffect(() => {
-    const initReady = async () => {
+    const readyApp = async () => {
       await ready();
     };
-    initReady();
-  }, [ready]);
+    if (!isReady) {
+      readyApp();
+    }
+  }, [ready, isReady]);
 
   useEffect(() => {
     if (isReady && !authenticated) {
