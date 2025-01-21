@@ -74,20 +74,15 @@ export default function App() {
               value: BigInt(2900000000000000),
             }]}
             onStatus={(status) => {
-              if (status.statusName === 'transactionIdle') {
-                selectionChanged();
+              if (status.statusName === 'success') {
+                notificationOccured('success');
               }
             }}
           />
           <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => {
-            impactOccured('light');
+            impactOccured('medium');
           }}>
             Impact
-          </button>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={() => {
-            notificationOccured('success');
-          }}>
-            Notification
           </button>
         </div>
       </main>
