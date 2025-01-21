@@ -26,7 +26,8 @@ export default function App() {
     if (isReady && !authenticated) {
       login();
     }
-  }, [login, authenticated, isReady]);
+    notificationOccured('success');
+  }, [login, authenticated, isReady, notificationOccured]);
 
   useEffect(() => {
     import('eruda').then((eruda) => {
