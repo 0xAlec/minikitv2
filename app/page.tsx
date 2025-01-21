@@ -10,7 +10,7 @@ import { useHapticFeedback } from '@/lib/core/useHapticFeedback';
 
 export default function App() {
   const { login, authenticated, user } = useAuthenticate();
-  const { impactOccured, notificationOccured, selectionChanged } = useHapticFeedback();
+  const { impactOccured, notificationOccured } = useHapticFeedback();
   const { ready, isReady, user: miniappUser } = useMiniKit();
 
   useEffect(() => {
